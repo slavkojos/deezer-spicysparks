@@ -8,21 +8,27 @@ import {
   Skeleton,
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import PlaylistItem from '../components/PlaylistItem';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlaylists } from '../core/store/playlistsSlice';
+import { Helmet } from 'react-helmet';
+
+import PlaylistItem from '../components/PlaylistItem';
 
 export default function Home() {
   const dispatch = useDispatch();
   const { playlists, loading } = useSelector(state => state.playlists);
 
   useEffect(() => {
-    dispatch(fetchPlaylists());
+    if (playlists.length < 1) dispatch(fetchPlaylists());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Box height="100% " bg="gray.900">
+      <Helmet>
+        <title>Deezer / Home</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <Container maxW="container.xl">
         <Flex width="100%" height="100%" direction="column">
           <Flex
@@ -56,7 +62,11 @@ export default function Home() {
             </Box>
           </Flex>
           <SimpleGrid columns={[2, 2, 4]} spacing={10}>
-            {loading === 'loading' ? (
+            {loading === 'loaded' ? (
+              playlists.map(playlist => (
+                <PlaylistItem key={playlist.id} playlist={playlist} />
+              ))
+            ) : (
               <>
                 <Skeleton
                   height="300px"
@@ -83,10 +93,6 @@ export default function Home() {
                   opacity={0.2}
                 />
               </>
-            ) : (
-              playlists.map(playlist => (
-                <PlaylistItem key={playlist.id} playlist={playlist} />
-              ))
             )}
           </SimpleGrid>
         </Flex>

@@ -4,14 +4,13 @@ import {
   Tbody,
   Tr,
   Th,
-  Td,
   Icon,
   Checkbox,
   Skeleton,
 } from '@chakra-ui/react';
 import { BiTimeFive } from 'react-icons/bi';
-import TrackItem from './TrackItem';
 import { useSelector } from 'react-redux';
+import TrackItem from './TrackItem';
 
 export default function PlaylistTable() {
   const { data: tracklist, loading } = useSelector(
@@ -35,8 +34,7 @@ export default function PlaylistTable() {
       </Thead>
       <Tbody>
         {loading === 'loaded' ? (
-          tracklist !== undefined &&
-          tracklist.tracks['data'].map((track, index) => (
+          tracklist.tracks.data.map((track, index) => (
             <TrackItem key={index} track={track} />
           ))
         ) : (

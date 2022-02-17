@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import {
   Container,
-  SimpleGrid,
   Box,
   Flex,
   Heading,
@@ -18,24 +17,31 @@ import { BsPlayCircle } from 'react-icons/bs';
 import { FiHeart } from 'react-icons/fi';
 import { RiShareForwardLine } from 'react-icons/ri';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
-import PlaylistTable from '../components/PlaylistTable';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlaylistDetails } from '../core/store/playlistDetailsSlice';
 import { fetchUserInfo } from '../core/store/usersSlice';
 import { fancyTimeFormat } from '../core/helperFunctions';
 import { formatDistanceToNowStrict } from 'date-fns';
+import { Helmet } from 'react-helmet';
+
+import PlaylistTable from '../components/PlaylistTable';
 
 export default function PlaylistDetail() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data, loading } = useSelector(state => state.playlistDetails);
-  const { user } = useSelector(state => state.userInfo);
+  const { user, loading: userLoading } = useSelector(state => state.userInfo);
   useEffect(() => {
     dispatch(fetchPlaylistDetails(id));
-    if (loading === 'loaded') dispatch(fetchUserInfo(data.creator.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
+  useEffect(() => {
+    if (loading === 'loaded') {
+      dispatch(fetchUserInfo(data.creator.id));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, loading]);
   if (loading === 'idle') return <Box></Box>;
   if (loading === 'loading')
     return (
@@ -45,6 +51,10 @@ export default function PlaylistDetail() {
     );
   return (
     <Box bg="gray.900">
+      <Helmet>
+        <title>{`Playlist / ${data.title}`}</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <Container maxW="container.xl" color="white">
         <Flex width="100%" height="100%" direction="column">
           <Flex width="100%" p={2}>
