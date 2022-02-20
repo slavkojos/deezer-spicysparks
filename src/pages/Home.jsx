@@ -61,7 +61,11 @@ export default function Home() {
               />
             </Box>
           </Flex>
-          <SimpleGrid columns={[2, 2, 4]} spacing={10}>
+          <SimpleGrid
+            columns={[2, 2, 4]}
+            spacing={10}
+            data-testid="playlists-grid"
+          >
             {loading === 'loaded' ? (
               playlists.map(playlist => (
                 <PlaylistItem key={playlist.id} playlist={playlist} />

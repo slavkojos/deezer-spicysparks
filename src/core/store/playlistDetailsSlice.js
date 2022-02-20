@@ -1,16 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
+const corsProxy = 'https://api.allorigins.win/raw?url=';
+const apiUrl =
+  'https://api.allorigins.win/raw?url=http://api.deezer.com/playlist';
 export const fetchPlaylistDetails = createAsyncThunk(
   'playlist/fetchbyID',
   async id => {
     try {
-      const response = await axios.get(
-        `https://api.allorigins.win/raw?url=http://api.deezer.com/playlist/${id}`
-      );
+      const response = await axios.get(corsProxy + apiUrl + '/' + id);
       if ((response.status = 200)) {
         return response.data;
       }
+      throw new Error('Network response was not ok.');
     } catch (error) {
       console.error(error);
     }
@@ -27,6 +28,7 @@ export const playlistDetailsSlice = createSlice({
       state.data = action.payload;
     },
     [fetchPlaylistDetails.pending]: (state, action) => {
+      state.data = [];
       state.loading = 'loading';
     },
     [fetchPlaylistDetails.rejected]: (state, action) => {

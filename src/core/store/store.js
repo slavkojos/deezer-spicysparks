@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import playlistsReducer from './core/store/playlistsSlice';
-import playlistDetailsSlice from './core/store/playlistDetailsSlice';
-import userInfoSlice from './core/store/usersSlice';
+import playlistsReducer from './playlistsSlice';
+import playlistDetailsSlice from './playlistDetailsSlice';
+import userInfoSlice from './usersSlice';
 import {
   persistStore,
   persistReducer,

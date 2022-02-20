@@ -41,7 +41,7 @@ export default function PlaylistDetail() {
       dispatch(fetchUserInfo(data.creator.id));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, loading]);
+  }, [data]);
   if (loading === 'idle') return <Box></Box>;
   if (loading === 'loading')
     return (
@@ -49,93 +49,93 @@ export default function PlaylistDetail() {
         <Spinner size="xl" thickness="4px" speed="1s" color="blue.500" />
       </Center>
     );
-  return (
-    <Box bg="gray.900">
-      <Helmet>
-        <title>{`Playlist / ${data.title}`}</title>
-        <meta name="description" content="Helmet application" />
-      </Helmet>
-      <Container maxW="container.xl" color="white">
-        <Flex width="100%" height="100%" direction="column">
-          <Flex width="100%" p={2}>
-            <Image
-              boxSize="300px"
-              objectFit="cover"
-              src={data.picture_xl}
-              alt="playlist-cover"
-              borderRadius="md"
-              mr={12}
-            />
-            <Flex direction="column">
-              <Heading isTruncated>{data.title}</Heading>
-              <HStack spacing="6px" my={5}>
-                <Avatar src={user.picture_xl} mr={2} />
-                <Text>{data.creator.name}</Text>
-              </HStack>
-              <Flex direction="column" color="gray.500">
-                <Text>{data.description}</Text>
-                <HStack>
-                  <Text>{data.nb_tracks} tracks</Text>
-                  <Text>-</Text>
-                  <Text>{fancyTimeFormat(data.duration)}</Text>
-                  <Text>-</Text>
-                  <Text>
-                    {new Intl.NumberFormat('en-US').format(data.fans)} fans
-                  </Text>
-                  <Text>-</Text>
+  if (loading === 'loaded')
+    return (
+      <Box bg="gray.900">
+        <Helmet>
+          <title>{`Playlist / ${data.title}`}</title>
+          <meta name="description" content="Helmet application" />
+        </Helmet>
+        <Container maxW="container.xl" color="white">
+          <Flex width="100%" height="100%" direction="column">
+            <Flex width="100%" p={2}>
+              <Image
+                boxSize="300px"
+                objectFit="cover"
+                src={data.picture_xl}
+                alt="playlist-cover"
+                borderRadius="md"
+                mr={12}
+              />
+              <Flex direction="column">
+                <Heading isTruncated>{data.title}</Heading>
+                <HStack spacing="6px" my={5}>
+                  <Avatar src={user.picture_small} mr={2} />
+                  <Text>{data.creator.name}</Text>
+                </HStack>
+                <Flex direction="column" color="gray.500">
+                  <Text>{data.description}</Text>
+                  <HStack>
+                    <Text>{data.nb_tracks} tracks</Text>
+                    <Text>-</Text>
+                    <Text>{fancyTimeFormat(data.duration)}</Text>
+                    <Text>-</Text>
+                    <Text>
+                      {new Intl.NumberFormat('en-US').format(data.fans)} fans
+                    </Text>
+                    <Text>-</Text>
 
-                  <Text>
-                    Updated:{' '}
-                    {formatDistanceToNowStrict(
-                      new Date(data['creation_date'].slice(0, 10))
-                    )}{' '}
-                    ago
-                  </Text>
-                </HStack>
-                <HStack my={3} spacing="20px" color="gray.200">
-                  <Button
-                    colorScheme="red"
-                    leftIcon={<BsPlayCircle />}
-                    px={12}
-                    size="lg"
-                    borderRadius="full"
-                  >
-                    LISTEN
-                  </Button>
-                  <IconButton
-                    isRound
-                    colorScheme="whiteAlpha"
-                    size="lg"
-                    variant="outline"
-                    aria-label="like"
-                    icon={<FiHeart />}
-                  />
-                  <IconButton
-                    isRound
-                    colorScheme="whiteAlpha"
-                    size="lg"
-                    variant="outline"
-                    aria-label="share"
-                    icon={<RiShareForwardLine />}
-                  />
-                  <IconButton
-                    isRound
-                    colorScheme="whiteAlpha"
-                    size="lg"
-                    variant="outline"
-                    aria-label="right"
-                    icon={<BiDotsHorizontalRounded />}
-                  />
-                </HStack>
+                    <Text>
+                      Updated:{' '}
+                      {formatDistanceToNowStrict(
+                        new Date(data['creation_date'].slice(0, 10))
+                      )}{' '}
+                      ago
+                    </Text>
+                  </HStack>
+                  <HStack my={3} spacing="20px" color="gray.200">
+                    <Button
+                      colorScheme="red"
+                      leftIcon={<BsPlayCircle />}
+                      px={12}
+                      size="lg"
+                      borderRadius="full"
+                    >
+                      LISTEN
+                    </Button>
+                    <IconButton
+                      isRound
+                      colorScheme="whiteAlpha"
+                      size="lg"
+                      variant="outline"
+                      aria-label="like"
+                      icon={<FiHeart />}
+                    />
+                    <IconButton
+                      isRound
+                      colorScheme="whiteAlpha"
+                      size="lg"
+                      variant="outline"
+                      aria-label="share"
+                      icon={<RiShareForwardLine />}
+                    />
+                    <IconButton
+                      isRound
+                      colorScheme="whiteAlpha"
+                      size="lg"
+                      variant="outline"
+                      aria-label="right"
+                      icon={<BiDotsHorizontalRounded />}
+                    />
+                  </HStack>
+                </Flex>
               </Flex>
             </Flex>
+            <Flex width="100%">
+              <PlaylistTable />
+            </Flex>
           </Flex>
-          <Flex width="100%">
-            {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
-            <PlaylistTable />
-          </Flex>
-        </Flex>
-      </Container>
-    </Box>
-  );
+        </Container>
+      </Box>
+    );
 }

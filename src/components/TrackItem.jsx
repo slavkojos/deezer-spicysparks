@@ -27,7 +27,7 @@ export default function TrackItem({ track }) {
         <Flex align="center" justify="space-between" width="100%">
           <Flex align="center">
             <Image
-              src={track.album.cover_xl}
+              src={track.album.cover_small}
               objectFit="cover"
               height="50px"
               mr={2}

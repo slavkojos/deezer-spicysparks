@@ -25,7 +25,7 @@ export default function PlaylistItem({ playlist }) {
           <Image
             borderRadius="md"
             objectFit="cover"
-            src={playlist.picture_xl}
+            src={playlist.picture_big}
             alt="playlist-cover"
           />
           <IconButton
