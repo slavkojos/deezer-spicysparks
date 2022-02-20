@@ -11,7 +11,7 @@ export const fetchPlaylistDetails = createAsyncThunk(
       if ((response.status = 200)) {
         return response.data;
       }
-      throw new Error('Network response was not ok.');
+      throw new Error(response.statusText);
     } catch (error) {
       console.error(error);
     }

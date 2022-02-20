@@ -23,7 +23,6 @@ import { fetchPlaylistDetails } from '../core/store/playlistDetailsSlice';
 import { fetchUserInfo } from '../core/store/usersSlice';
 import { fancyTimeFormat } from '../core/helperFunctions';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { Helmet } from 'react-helmet';
 
 import PlaylistTable from '../components/PlaylistTable';
 
@@ -38,8 +37,10 @@ export default function PlaylistDetail() {
   }, [id]);
   useEffect(() => {
     if (loading === 'loaded') {
+      document.title = `Deezer / ${data.title} `;
       dispatch(fetchUserInfo(data.creator.id));
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   if (loading === 'idle') return <Box></Box>;
@@ -52,10 +53,6 @@ export default function PlaylistDetail() {
   if (loading === 'loaded')
     return (
       <Box bg="gray.900">
-        <Helmet>
-          <title>{`Playlist / ${data.title}`}</title>
-          <meta name="description" content="Helmet application" />
-        </Helmet>
         <Container maxW="container.xl" color="white">
           <Flex width="100%" height="100%" direction="column">
             <Flex width="100%" p={2}>

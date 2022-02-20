@@ -8,7 +8,6 @@ export const fetchPlaylists = createAsyncThunk(
   async thunkApi => {
     try {
       const response = await axios.get(`${corsProxy}${apiUrl}`);
-      console.log('response', response);
       if (response.status === 200) {
         const playlists = response.data.data;
         playlists.map(playlist => {
@@ -25,7 +24,7 @@ export const fetchPlaylists = createAsyncThunk(
         });
         return playlists;
       }
-      throw new Error('Network response was not ok.');
+      throw new Error(response.statusText);
     } catch (error) {
       console.error(error);
     }

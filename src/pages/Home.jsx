@@ -11,7 +11,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlaylists } from '../core/store/playlistsSlice';
-import { Helmet } from 'react-helmet';
 
 import PlaylistItem from '../components/PlaylistItem';
 
@@ -21,14 +20,11 @@ export default function Home() {
 
   useEffect(() => {
     if (playlists.length < 1) dispatch(fetchPlaylists());
+    document.title = `Deezer / Home `;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Box height="100% " bg="gray.900">
-      <Helmet>
-        <title>Deezer / Home</title>
-        <meta name="description" content="Helmet application" />
-      </Helmet>
       <Container maxW="container.xl">
         <Flex width="100%" height="100%" direction="column">
           <Flex
