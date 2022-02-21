@@ -9,17 +9,32 @@ import {
 } from '@chakra-ui/react';
 import { FaPlay } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { prominent } from 'color.js';
 
 export default function PlaylistItem({ playlist }) {
+  const [dominantColor, setDominantColor] = useState('black');
+  const getDominantColor = async () => {
+    setDominantColor(
+      await prominent(playlist.picture_medium, { amount: 1, format: 'hex' })
+    );
+  };
+  useEffect(() => {
+    getDominantColor();
+  }, []);
   return (
-    <Link as={RouterLink} to={`/${playlist.type}/${playlist.id}`}>
+    <Link
+      as={RouterLink}
+      to={`/${playlist.type}/${playlist.id}`}
+      data-testid="playlist-item"
+    >
       <Flex direction="column">
         <Box
           position="relative"
           transition=".3s ease"
-          opacity={1}
+          filter="auto"
           _hover={{
-            opacity: 0.5,
+            filter: `drop-shadow(0px 0px 12px ${dominantColor}) brightness(0.8)`,
           }}
         >
           <Image

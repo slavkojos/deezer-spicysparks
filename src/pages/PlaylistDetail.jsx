@@ -23,7 +23,6 @@ import { fetchPlaylistDetails } from '../core/store/playlistDetailsSlice';
 import { fetchUserInfo } from '../core/store/usersSlice';
 import { fancyTimeFormat } from '../core/helperFunctions';
 import { formatDistanceToNowStrict } from 'date-fns';
-
 import PlaylistTable from '../components/PlaylistTable';
 
 export default function PlaylistDetail() {
@@ -40,14 +39,26 @@ export default function PlaylistDetail() {
       document.title = `Deezer / ${data.title} `;
       dispatch(fetchUserInfo(data.creator.id));
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
+
   if (loading === 'idle') return <Box></Box>;
   if (loading === 'loading')
     return (
       <Center bg="gray.900" my={12}>
-        <Spinner size="xl" thickness="4px" speed="1s" color="blue.500" />
+        <Spinner
+          size="xl"
+          thickness="4px"
+          speed="1s"
+          color="blue.500"
+          data-testid="loading-spinner"
+        />
+      </Center>
+    );
+  if (loading === 'error')
+    return (
+      <Center bg="gray.900" color="white">
+        <Text fontSize="4xl">Error loading playlist</Text>
       </Center>
     );
   if (loading === 'loaded')

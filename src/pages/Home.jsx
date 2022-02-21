@@ -19,7 +19,7 @@ export default function Home() {
   const { playlists, loading } = useSelector(state => state.playlists);
 
   useEffect(() => {
-    if (playlists.length < 1) dispatch(fetchPlaylists());
+    if (!playlists.length) dispatch(fetchPlaylists());
     document.title = `Deezer / Home `;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -37,7 +37,9 @@ export default function Home() {
             bg="gray.900"
             py={2}
           >
-            <Heading color="white">Featured playlists &gt;</Heading>
+            <Heading data-testid="page-heading" color="white">
+              Featured playlists &gt;
+            </Heading>
             <Box>
               <IconButton
                 isRound
@@ -57,11 +59,7 @@ export default function Home() {
               />
             </Box>
           </Flex>
-          <SimpleGrid
-            columns={[2, 2, 4]}
-            spacing={10}
-            data-testid="playlists-grid"
-          >
+          <SimpleGrid data-testid="grid" columns={[2, 2, 4]} spacing={10}>
             {loading === 'loaded' ? (
               playlists.map(playlist => (
                 <PlaylistItem key={playlist.id} playlist={playlist} />

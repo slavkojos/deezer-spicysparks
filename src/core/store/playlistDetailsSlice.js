@@ -8,6 +8,7 @@ export const fetchPlaylistDetails = createAsyncThunk(
   async id => {
     try {
       const response = await axios.get(corsProxy + apiUrl + '/' + id);
+      console.log('response, ' + response.status);
       if ((response.status = 200)) {
         return response.data;
       }
@@ -24,6 +25,10 @@ export const playlistDetailsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchPlaylistDetails.fulfilled]: (state, action) => {
+      if (action.payload.error) {
+        state.loading = 'error';
+        return;
+      }
       state.loading = 'loaded';
       state.data = action.payload;
     },

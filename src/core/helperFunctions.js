@@ -1,3 +1,5 @@
+import { prominent } from 'color.js';
+
 export const fancyTimeFormat = duration => {
   // Hours, minutes and seconds
   const hrs = ~~(duration / 3600);
@@ -14,4 +16,11 @@ export const fancyTimeFormat = duration => {
   ret += '' + mins + ':' + (secs < 10 ? '0' : '');
   ret += '' + secs;
   return ret;
+};
+
+export const generateDominantColor = async picture => {
+  return await prominent(picture, {
+    amount: 1,
+    format: 'hex',
+  });
 };

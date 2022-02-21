@@ -22,6 +22,7 @@ export default function TrackItem({ track }) {
         backgroundColor: 'gray.700',
       }}
       align="center"
+      data-testid="track-item"
     >
       <Td width="50%">
         <Flex align="center" justify="space-between" width="100%">
