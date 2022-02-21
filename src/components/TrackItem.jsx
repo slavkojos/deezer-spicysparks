@@ -15,18 +15,20 @@ import { FiHeart } from 'react-icons/fi';
 export default function TrackItem({ track }) {
   return (
     <Tr
-      height="50px"
+      height="60px"
       transition=".2s ease"
       cursor="pointer"
       _hover={{
         backgroundColor: 'gray.700',
       }}
+      align="center"
+      data-testid="track-item"
     >
       <Td width="50%">
         <Flex align="center" justify="space-between" width="100%">
           <Flex align="center">
             <Image
-              src={track.album.cover_xl}
+              src={track.album.cover_small}
               objectFit="cover"
               height="50px"
               mr={2}
@@ -61,8 +63,8 @@ export default function TrackItem({ track }) {
           </Box>
         </Flex>
       </Td>
-      <Td>{track.artist.name}</Td>
-      <Td>{track.album.title}</Td>
+      <Td width="20%">{track.artist.name}</Td>
+      <Td noOfLines={1}>{track.album.title}</Td>
       <Td>{format(new Date(fromUnixTime(track.time_add)), 'dd/MM/yyyy')}</Td>
       <Td>{fancyTimeFormat(track.duration)}</Td>
       <Td>

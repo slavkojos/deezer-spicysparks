@@ -1,15 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-const apiUrl =
-  'https://api.allorigins.win/raw?url=http://api.deezer.com/chart/0/playlists?limit=30';
+const corsProxy = 'https://api.allorigins.win/raw?url=';
+const apiUrl = 'https://api.deezer.com/chart/0/playlists?limit=30';
 
 export const fetchPlaylists = createAsyncThunk(
   'playlists/fetchAll',
   async thunkApi => {
     try {
-      const response = await axios.get(apiUrl);
-      if ((response.status = 200)) {
+      const response = await axios.get(`${corsProxy}${apiUrl}`);
+      if (response.status === 200) {
         const playlists = response.data.data;
         playlists.map(playlist => {
           return {
@@ -18,13 +17,14 @@ export const fetchPlaylists = createAsyncThunk(
             type: playlist.type,
             nb_tracks: playlist.nb_tracks,
             link: playlist.link,
-            picture_xl: playlist.picture_xl,
+            picture_big: playlist.picture_big,
             tracklist: playlist.tracklist,
             creation_date: playlist.creation_date,
           };
         });
         return playlists;
       }
+      throw new Error(response.statusText);
     } catch (error) {
       console.error(error);
     }

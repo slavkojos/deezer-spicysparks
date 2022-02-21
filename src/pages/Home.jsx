@@ -8,17 +8,19 @@ import {
   Skeleton,
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import PlaylistItem from '../components/PlaylistItem';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPlaylists } from '../core/store/playlistsSlice';
+
+import PlaylistItem from '../components/PlaylistItem';
 
 export default function Home() {
   const dispatch = useDispatch();
   const { playlists, loading } = useSelector(state => state.playlists);
 
   useEffect(() => {
-    dispatch(fetchPlaylists());
+    if (!playlists.length) dispatch(fetchPlaylists());
+    document.title = `Deezer / Home `;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -35,7 +37,9 @@ export default function Home() {
             bg="gray.900"
             py={2}
           >
-            <Heading color="white">Featured playlists &gt;</Heading>
+            <Heading data-testid="page-heading" color="white">
+              Featured playlists &gt;
+            </Heading>
             <Box>
               <IconButton
                 isRound
@@ -55,8 +59,12 @@ export default function Home() {
               />
             </Box>
           </Flex>
-          <SimpleGrid columns={[2, 2, 4]} spacing={10}>
-            {loading === 'loading' ? (
+          <SimpleGrid data-testid="grid" columns={[2, 2, 4]} spacing={10}>
+            {loading === 'loaded' ? (
+              playlists.map(playlist => (
+                <PlaylistItem key={playlist.id} playlist={playlist} />
+              ))
+            ) : (
               <>
                 <Skeleton
                   height="300px"
@@ -83,10 +91,6 @@ export default function Home() {
                   opacity={0.2}
                 />
               </>
-            ) : (
-              playlists.map(playlist => (
-                <PlaylistItem key={playlist.id} playlist={playlist} />
-              ))
             )}
           </SimpleGrid>
         </Flex>
